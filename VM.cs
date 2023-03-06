@@ -25,8 +25,8 @@ namespace VirtualMemory2
         private int CheckValueInByteMap( int position , int NumberList) // проверка значения битовой карты
         {
             position = position - NumberList * 512;
-            int result = 0b1000_0000;
-            result >>= position%8-1; 
+            byte result = 0b1000_0000;
+            result >>= position%8; 
             if (Equals(pages[SearchIndexList(NumberList)].map[position/8] & result , 0)) return 1; // ячейка пустая
             return 0; // ячейка занята 
         }
@@ -40,7 +40,7 @@ namespace VirtualMemory2
         {            
             Index = Index - NumberList * 512;
             byte result = 0b1000_0000;
-            result >>= Index%8 - 1;
+            result >>= Index%8;
             pages[SearchIndexList(NumberList)].map[Index/8] |= result  ;
         }
         private int SearchIndexList(int NumberList) // поиск индекса страницы по номеру страницы
@@ -190,7 +190,7 @@ namespace VirtualMemory2
             catch (IndexOutOfRangeException e) { Console.WriteLine(e); return -1; }
             if (point == 0)
             {
-                Console.WriteLine("Позиция занята");
+                Console.WriteLine($"Позиция занята значением :{Convert.ToByte(buffer[(index-512*list)])}");
             }
             else
             {
